@@ -26,8 +26,6 @@ CCONTENTS 	NVARCHAR2(2000) constraint cCONTENTS_NN NOT NULL
 );
 
 
-Alter Table shop modify (sno number constraint sno_nn not null) ;
-
 CREATE TABLE REVIEW(
 RNO		NUMBER CONSTRAINT rno_PK primary key,
 rdate	date DEFAULT SYSDATE constraint rdate_NN not null,
@@ -48,15 +46,28 @@ bname nvarchar2(10) constraint bid_nn not null,
 busernum number constraint bun_nn not null
 );
 
+create table timeTable(
+tno			number			constraint tno_nn not null,
+ttime		nvarchar2(100)	constraint ttime_nn not null),
+status 		nvarchar2(20)
+;
+
+select * from timeTable;
 
 
-create sequence rno_seq 
+create sequence ccode_seq
 increment by 1
 start with 1
 nocache;
 
-select * from book;
 
-select * from member;
+select * from timetable;
+select * from book;
+select * from CUT;
+select * from MEMBER;
+select * from REVIEW;
+select * from shop;
+
+
 
 SELECT * FROM all_sequences where sequence_owner='ANN'; --모든 시퀀스 조회

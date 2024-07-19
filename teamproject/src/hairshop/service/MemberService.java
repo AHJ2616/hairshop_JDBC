@@ -2,6 +2,7 @@ package hairshop.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 import hairshop.Main;
@@ -42,7 +43,7 @@ public class MemberService {
 		memberDAO.join(connection, newMember);
 	}
 	
-	public void MemberMenu(Scanner scanner, Connection connection) throws SQLException {
+	public void MemberMenu(Scanner scanner, Connection connection) throws SQLException, ParseException {
 		MemberDTO memberDTO = new MemberDTO();
 		BookService bookService = new BookService();
 		

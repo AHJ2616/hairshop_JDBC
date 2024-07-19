@@ -48,7 +48,7 @@ public class BookDTO {
 	public void setBtime(String btime) {
 		this.btime = btime;
 	}
-	public void setBdesigenrNum(int bdesigeneNnum) {
+	public void setBdesignerNum(int bdesignerNum) {
 		this.bdesignerNum = bdesignerNum;
 	}
 	public void setBcut(String bcut) {

@@ -3,9 +3,12 @@ package hairshop;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 import hairshop.dto.MemberDTO;
+import hairshop.service.AdminService;
+import hairshop.service.DesignerSeivice;
 import hairshop.service.MemberService;
 
 public class Main {
@@ -23,16 +26,20 @@ public class Main {
 		
 	}
 	
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, ParseException {
 		Main main = new Main();
 		mainMenu();
 		
 
 	}//main method end
 	
-	public static void mainMenu() throws SQLException {//메인메뉴
+	public static void mainMenu() throws SQLException, ParseException {//메인메뉴
 		
 		System.out.println("www.MBC헤어샵.com");
+		
+		System.out.println("테스트용 아이디 리스트");
+		System.out.println("관리자 id/pw = admin/1234");
+		System.out.println("디자이너 id/pw = test2/test2");
 		System.out.println("-----------------------");
 		MemberService memberSV = new MemberService();
 		boolean run = true;
@@ -48,9 +55,11 @@ public class Main {
 				
 			
 					if (loginMember.getMgrade() == 1) {
-						// 관리자 메뉴
+						AdminService as = new AdminService();
+						as.adminMenu(connection);
 					} else if (loginMember.getMgrade() == 2) {
-						// 디자이너 메뉴
+						DesignerSeivice ds = new DesignerSeivice();
+						ds.designerMenu(connection);
 					} else {
 						memberSV.MemberMenu(scanner, connection);
 					}

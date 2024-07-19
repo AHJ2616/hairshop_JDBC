@@ -9,6 +9,19 @@ public class ShopDTO {
 	private String sopen;
 	private String sclose;
 	
+	//constructor
+		public ShopDTO() {} // basic constructor
+		
+		public ShopDTO(String sname, String slocation, int sno, String sdesigner, String sopen, String sclose) {
+			super();
+			this.sname = sname;
+			this.slocation = slocation;
+			this.sno = sno;
+			this.sdesigner = sdesigner;
+			this.sopen = sopen;
+			this.sclose = sclose;
+		}// customized constructor
+	
 	
 	public String getSname() {
 		return sname;

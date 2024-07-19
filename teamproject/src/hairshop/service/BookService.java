@@ -2,13 +2,15 @@ package hairshop.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 import hairshop.Main;
 import hairshop.dao.BookDAO;
+import hairshop.dao.CutDAO;
 import hairshop.dao.MemberDAO;
+import hairshop.dao.ShopDAO;
 import hairshop.dto.BookDTO;
-import hairshop.dto.MemberDTO;
 
 public class BookService {
 
@@ -16,37 +18,41 @@ public class BookService {
 	public static MemberDAO memberDAO = new MemberDAO();
 	private static Scanner scanner = new Scanner(System.in);
 
-	public void booking(Connection connection) throws SQLException {
+	public void booking(Connection connection) throws SQLException, ParseException {
+		ShopDAO shopDAO = new ShopDAO();
 		BookDTO newBook = new BookDTO();
+		CutDAO cutDAO = new CutDAO();
+		boolean ft = true;
 		System.out.println("예약 가능한 매장 리스트 입니다.");
-		// shop.list() - shop 번호랑 이름 위치만 전체출력
-		System.out.println("예약 할 매장 선택");
-		System.out.print(">>>");
-		int select = scanner.nextInt();
-		if (select == newBook.getBno()) {
-			// shop.read() - shop 하나의 모든정보 출력.
+		int select = 0;
+		shopDAO.shopList(connection);
+		while (ft) {
 
-			System.out.print("예약 날짜 입력(YYYY/MM/DD) : ");
-			newBook.setBdate(scanner.next());
-			System.out.println("예약 불가능한 시간 목록(제외하고 입력해주세요)");
-			bookDAO.time(connection, newBook.getBdate());
-			System.out.print("예약 시간 입력(TT:MM) : ");
-			newBook.setBtime(scanner.next());
-
-			memberDAO.designer(connection);
-			System.out.print("디자이너 선택 : ");
-			newBook.setBdesigenrNum(scanner.nextInt());
-			
-
-			System.out.print("서비스 선택");
-			// shop.cut.list() - 커트 번호, 커트 이름, 커트 설명, 커트 가격 전체출력
-
-			int select1 = scanner.nextInt(); // select 1 == scode(커트번호)
-			newBook.setBuserNum(Main.loginMember.getMno());
-
-			bookDAO.insertBook(connection, newBook, select, select1);
-
+			System.out.println("예약 할 매장 선택");
+			System.out.print(">>>");
+			select = scanner.nextInt();
+			ft = shopDAO.shopListDetail(connection, select);
+			if (ft == true) {
+				return;
+			}
 		}
+		System.out.print("예약 날짜 입력(YYYY/MM/DD) : ");
+		newBook.setBdate(scanner.next());
+		System.out.println("예약 불가능한 시간 목록(제외하고 입력해주세요)");
+		bookDAO.time(connection, newBook.getBdate());
+		System.out.print("예약 시간 입력(TT:MM) : ");
+		newBook.setBtime(scanner.next());
+
+		memberDAO.designer(connection);
+		System.out.print("디자이너 선택 : ");
+		newBook.setBdesignerNum(scanner.nextInt());
+		cutDAO.cutList(connection);
+		System.out.print("서비스 선택");
+		int select1 = scanner.nextInt(); // select 1 == scode(커트번호)
+		newBook.setBuserNum(Main.loginMember.getMno());
+
+		bookDAO.insertBook(connection, newBook, select, select1);
+
 	}
 
 	public void checkBook(Connection connection) throws SQLException {
@@ -54,11 +60,11 @@ public class BookService {
 
 		bookDAO.list(connection);
 
-		System.out.println("확인 할 예약번호를 입력하세요(메뉴복귀는 99번)");
+		System.out.println("확인 할 예약번호를 입력하세요(메뉴복귀는 0번)");
 		System.out.print(">>>>>");
 
 		int select = scanner.nextInt();
-		if (select == 99) {
+		if (select == 0) {
 			System.out.println("메뉴로 복귀합니다.");
 			return;
 		} else {
@@ -92,7 +98,7 @@ public class BookService {
 				// shop.cut.list() - 커트 번호, 커트 이름, 커트 설명, 커트 가격 전체출력
 				System.out.print(">>>>>");
 				int cSelect = scanner.nextInt();
-				bookDAO.modifyCut(connection,select, cSelect);
+				bookDAO.modifyCut(connection, select, cSelect);
 				break;
 			}
 
@@ -101,7 +107,7 @@ public class BookService {
 			System.out.println("정말 취소 하시겠습니까?");
 			System.out.print("1.YES | 2.NO");
 			int yesNo = scanner.nextInt();
-			if(yesNo == 1) {
+			if (yesNo == 1) {
 				bookDAO.delete(connection, select);
 			}
 			// delete 메서드로 이동(select가지고 가야함)
@@ -113,6 +119,5 @@ public class BookService {
 		}
 
 	}
-
 	
 }
