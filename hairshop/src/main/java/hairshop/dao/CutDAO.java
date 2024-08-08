@@ -9,9 +9,9 @@ import hairshop.dto.CutDTO;
 
 public class CutDAO extends Connection_pool {
 
+
 	
-	//시술 추가
-	public int insertHair(CutDTO dto) {
+	public int insertHair(CutDTO dto) { // 헤어컷 추가 메서드 2024_08_06
 		int applyResult = 0;
 		String query = "insert into cut (cno,csno,csname,ccutname,cprice,ccontents,ofile, sfile) "
 				+ "values (cno_seq.nextval,?,?,?,?,?,?,?)";
@@ -34,9 +34,8 @@ public class CutDAO extends Connection_pool {
 		return applyResult;
 	}// end insertHair
 
-	// 출력 메서드
-	public List<CutDTO> myFileList() {
-		List<CutDTO> fileList = new Vector<CutDTO>(); // 멀티스레드용
+	public List<CutDTO> hairCutList() { // 헤어 리스트 출력 메서드 2024_08_06
+		List<CutDTO> hairList = new Vector<CutDTO>();
 
 		try {
 			String qurey = "select * from cut order by cno desc"; // 모든 데이터를 찾아옴(내림차순)
@@ -57,7 +56,7 @@ public class CutDAO extends Connection_pool {
 				dto.setOfile(rs.getString("ofile"));
 				dto.setSfile(rs.getString("sfile"));
 
-				fileList.add(dto); // 리스트에 객체 삽입
+				hairList.add(dto); // 리스트에 객체 삽입
 			}
 		} catch (SQLException e) {
 			System.out.println("MyfileDAO.myFileList() 메서드 오류");
@@ -65,10 +64,76 @@ public class CutDAO extends Connection_pool {
 			e.printStackTrace();
 		}
 
-		return fileList; // 결론 테이블에 있는 모든 값이 리스트의 객체로 리턴한다
+		return hairList; // 결론 테이블에 있는 모든 값이 리스트의 객체로 리턴한다
 	}
+
+	public int deleteHairCut(int cno) {
+		int resultDel = 0;
+		String query = "delete from cut where cno=?";
+
+		try {
+			pst = con.prepareStatement(query);
+			pst.setInt(1, cno);
+
+			resultDel = pst.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("오류 경로 : CutDAO.deleteHairCut() ");
+			e.printStackTrace();
+		}
+
+		return resultDel;
+	}// end insertHair
+
+	public CutDTO selectHair(int cno) { // 특정 헤어컷 값 불러오는 메서드 2024_08_07
+		CutDTO selectHair = new CutDTO();
+
+		String qurey = "select * from cut where cno=?"; // 모든 데이터를 찾아옴(내림차순)
+
+		try {
+			pst = con.prepareStatement(qurey);
+			pst.setInt(1, cno);
+
+			rs = pst.executeQuery(); // 쿼리문 실행 후 결과를 표로 받음
+
+			while (rs.next()) {
+				selectHair.setCno(rs.getString("cno"));
+				selectHair.setCsno(rs.getString("csno"));
+				selectHair.setCsname(rs.getString("csname"));
+				selectHair.setCcutname(rs.getString("ccutname"));
+				selectHair.setCprice(rs.getString("cprice"));
+				selectHair.setCcontents(rs.getString("ccontents"));
+				selectHair.setOfile(rs.getString("ofile"));
+				selectHair.setSfile(rs.getString("sfile"));
+			}
+		} catch (SQLException e) {
+			System.out.println("오류 경로 : CutDAO.selectHair() 메소드 오류");
+			e.printStackTrace();
+		}
+
+		return selectHair; // 결론 테이블에 있는 모든 값이 리스트의 객체로 리턴한다
+	}// end selectHair()
+
+	public int editHairCut(String cname, String ccontents, String price, int cno) { // 특정 헤어컷 값 불러오는 메서드 2024_08_07
+		int editresult = 0;
+		String query = "update cut set ccutname=?, ccontents=?, cprice=? where cno=?";
+
+			try {
+				pst = con.prepareStatement(query);
+				pst.setString(1, cname);
+				pst.setString(2, ccontents);
+				pst.setString(3, price);
+				pst.setInt(4, cno);
+
+				editresult = pst.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("오류 경로 : CutDAO.editHairCut()");
+				e.printStackTrace();
+			}
+		return editresult;
+	}// end insertHair
 	
-	//관리자 번호로 매장번호 가져오기
+	
+	
 	
 	
 }// class end

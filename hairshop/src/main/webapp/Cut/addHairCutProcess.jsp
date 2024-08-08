@@ -18,11 +18,16 @@
 	String encoding = "UTF-8" ;
 	MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
 	
+	//실험중
+	String addCcutname = mr.getParameter("add_ccutname");
+	
 	// 2단계 : ofile, sfile 결정
 	// 2. 새로운 파일명 생성
     String fileName = mr.getFilesystemName("add_cimage");  // 현재 파일 이름
     String ext = fileName.substring(fileName.lastIndexOf("."));  // 파일 확장자
-    String newFileName = session.getAttribute("sname")+"_"+mr.getParameter("add_cname") + ext;  // 새로운 파일 이름("매장이름_커트이름.확장자")
+/*     String newFileName = session.getAttribute("sname")+"_"+mr.getParameter("add_ccutname") + ext;  // 새로운 파일 이름("매장이름_커트이름.확장자") */
+    String newFileName = session.getAttribute("sname")+"_"+ addCcutname + ext;  // 새로운 파일 이름("매장이름_커트이름.확장자")
+
     
     // 3. 파일명 변경
     File oldFile = new File(saveDirectory + File.separator + fileName);
@@ -34,19 +39,20 @@
 	
     // 4. FileUploadMain에서 넘어온 폼 값 처리
     
-    String csname = mr.getParameter("add_cname");
+    String csname = mr.getParameter("add_ccutname");
     String ccontents = mr.getParameter("add_ccontent");
-    
+
 	
     // 5. dto에 4번 값 넣기 
     CutDTO dto = new CutDTO();
     dto.setCcontents(mr.getParameter("add_ccontent"));
-    dto.setCcutname(mr.getParameter("add_cname"));
+    dto.setCcutname(mr.getParameter("add_ccutname"));
     dto.setCprice(mr.getParameter("add_cprice").toString());
     dto.setCsname(session.getAttribute("sname").toString());
     dto.setOfile(fileName);
     dto.setSfile(newFileName);
-    dto.setCsno(session.getAttribute("sno").toString());
+    dto.setCsno(session.getAttribute("smno").toString());
+    
     
     
     // 6. DAO를 통해 데이터베이스에 반영

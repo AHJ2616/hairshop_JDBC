@@ -9,7 +9,17 @@ public class MemberDTO {
 	private String mphone;
 	private int mgrade; // 1 : 매니저 2: 디자이너 3: 일반유저
 	private String mssno;
+	private String mdate;
+
 	
+	
+	
+	public String getMdate() {
+		return mdate;
+	}
+	public void setMdate(String mdate) {
+		this.mdate = mdate;
+	}
 	public String getMssno() {
 		return mssno;
 	}

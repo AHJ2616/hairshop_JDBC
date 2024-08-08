@@ -24,5 +24,16 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
+  <!-- 페이징 처리용 변수 선언 -->
+   <context-param>
+      <param-name>POSTS_PER_PAGE</param-name> <!-- 한페이지에 게시물 10개 -->
+      <param-value>6</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>PAGES_PER_BLOCK</param-name> <!-- 한 화면에 보이는 페이지 블록 5개 -->
+      <param-value>5</param-value>
+   </context-param>
+  
   
 </web-app>

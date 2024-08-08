@@ -1,5 +1,21 @@
+<%@page import="hairshop.dao.MemberDAO"%>
+<%@page import="hairshop.dto.ShopDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="hairshop.dao.ShopDAO"%>
+<%@page import="hairshop.dto.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%
+	String findId = request.getParameter("searchId");
+	MemberDAO dao = new MemberDAO();
+	MemberDTO dto = dao.searchUser(findId);
+	
+	// 헤어샵 목록 제공용
+	ShopDAO shopdao = new ShopDAO(); // 1,2 단계
+	List<ShopDTO> shopLists = shopdao.shopList(); // 3,4 단계
+	dao.close(); // 5단계
+
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +53,6 @@
 <body>
 	<%@ include file="../Common/header.jsp" %>
 	<%@ include file="../Common/check_grade1.jsp" %>
-	<%@ include file="../Common/check_login.jsp" %>
 	<section class="hero-wrap hero-wrap-2"
 		style="background-image: url('../images/bg-1.jpg')"
 		data-stellar-background-ratio="0.5">
@@ -56,56 +71,59 @@
 			<div class="row justify-content-center pb-3">
 				<div class="col-md-10 heading-section text-center ftco-animate">
 					<span class="subheading">ADMINISTRATOR</span>
-					<h2 class="mb-4">관리자 전용 메뉴</h2>
-					<p>헤어샵 헤어 추가 및 디자이너 권한 부여 메뉴</p>
+					<h2 class="mb-4">디자이너 임명</h2>
+					<p>유저 아이디를 검색하고 디자이너로 임명하세요.</p>
 				</div>
 			</div>
 			<div
 				class="row no-gutters d-flex justify-content-center align-items-center">
 				<!-- justify-content-center align-items-center : 가운데 정렬 -->
-				<div
-					class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon">
-							<span class="flaticon-male-hair-of-head-and-face-shapes"></span>
-						</div>
-						<!-- onclick으로 링크 연결, cursor로 마우스 올리면 손모양 버튼 출력 -->
-						<div class="media-body" onclick="location.href='hairCutList.jsp';"
-							style="cursor: pointer;">
-							<h3 class="heading mb-3">Haircut &amp; Styling</h3>
-							<p>헤어 컷 관리<br>(추가, 삭제, 제거)</p>
-						</div>
-					</div>
-				</div><!-- hairCutList.jsp 로가는 div -->
-				 <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="icon"><span class="flaticon-beard"></span></div>
-              <div class="media-body" onclick="location.href='../Book/bookList.jsp';">
-                <h3 class="heading mb-3">예약목록 보기</h3>
-                <p>매장 전체의 예약목록을 확인합니다</p>
-              </div>
-            </div>      
-          </div>
-				<div
-					class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-					<div class="media block-6 services d-block text-center">
-						<div class="icon">
-							<span class="flaticon-healthy-lifestyle-logo"></span>
-						</div>
-						<div class="media-body" onclick="location.href='../Shop/gradeMain.jsp';"
-							style="cursor: pointer;">
-							<h3 class="heading mb-3">디자이너 임명</h3>
-							<p>특정 계정을 디자이너로 변경</p>
-						</div>
-					</div>
-				</div><!-- accEdit.jsp 로 가는 div -->
 			</div>
 		</div>
 	</section>
 	<!-- 중단부 클릭 메뉴 -->
 
+	
+	<%if(findId == null) { %>
+	    <script>/* Form 유효성 검사 */
+    function validateForm(form) {
+        if (form.search_id.value == "") {
+            alert("아이디를 입력해주세요.");
+            document.add_ccutname.focus();
+            return false; 
+        }
+    }
+    </script>
+	<div class="row justify-content-center pb-3" onsubmit="return validateForm(this);">
+		<form action="gradeSearchProcess.jsp" method="post" name="gradeSchFrm">
+			아이디 : <input class="form-control" type="text" name="search_id" required	placeholder="찾을 아이디" /><br />
+			<input type="submit" class="btn btn-primary btn-outline-primary"
+				value="검색" />
+		</form>
+	</div>
+	<% } %>
+	
+	<%if(findId != null) {%>
+
+	<% for (ShopDTO s : shopLists) { %>
 
 
+	매장정보 | 샵이름: <%= s.getSname() %> |샵 코드: <%= s.getSno() %>
+
+	<% } %>
+
+	회원정보 | 회원번호 : <%= dto.getMno() %> 아이디 : <%= dto.getMid() %> 이름 :<%= dto.getMname() %> Grade : <%= dto.getMgrade() %>
+
+		<form action="gradeEditProcess.jsp" method="post" name="gradeEdtFrm">
+			지명 매장 코드 : <input class="form-control" type="text" name="input_dsno" required	placeholder="소속시킬 매장 코드입력.." /><br />
+			디자이너명 : <input class="form-control" type="text" name="input_dname" required	placeholder="디자이너 이름 입력.." /><br />
+			<input type="submit" class="btn btn-primary btn-outline-primary" value="변경" />
+		</form>
+
+	<% } %>
+	
+	
+	
 	<footer class="ftco-footer ftco-section">
 		<div class="container">
 			<div class="row mb-5">

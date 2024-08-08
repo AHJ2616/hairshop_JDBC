@@ -2,10 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 	<nav
 		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
@@ -23,11 +20,27 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="../Common/index.jsp"
 						class="nav-link">Home</a></li>
+					
+						<%if (session.getAttribute("mid") != null) {
+					switch (session.getAttribute("mgrade").toString()) {
+					case "1" : %>
+						<li class="nav-item"><a href="../Cut/adminservice.jsp"
+						class="nav-link">관리자 메뉴</a></li>
+						<li class="nav-item"><a href="../Book/bookList.jsp"
+						class="nav-link">예약목록 보기</a></li>
+						<%
+						break;
+					case "2" :
+						break;
+					case "3" :%>
 					<li class="nav-item"><a href="../Book/booking_main.jsp"
 						class="nav-link">예약하기</a></li>
-					<li class="nav-item"><a href="../gallery.jsp" class="nav-link">Gallery</a></li>
-					<li class="nav-item"><a href="../about.jsp" class="nav-link">About</a></li>
-					<li class="nav-item"><a href="../blog.jsp" class="nav-link">Blog</a></li>
+						<li class="nav-item"><a href="../Member/activity.jsp"
+						class="nav-link">나의 활동내역</a></li>
+					<%
+					}}//switch,if end
+					//else end
+					%>
 					<%
 					if (session.getAttribute("mid") == null) {
 					%>
@@ -35,22 +48,11 @@
 						class="nav-link">로그인</a></li>
 					<%
 					} else {
-					%><li class="nav-item active"><a href="logout.jsp"
+					%><li class="nav-item active"><a href="../Member/logout.jsp"
 						class="nav-link">로그아웃</a></li>
-					<li class="nav-item"><a href="user_profile.jsp"
-						class="nav-link">회원정보</a></li>
-					<%
-					switch (session.getAttribute("mgrade").toString()) {
-					case "1" : %>
-						<li class="nav-item"><a href="../Cut/hairCutList.jsp"
-						class="nav-link">시술표 관리</a></li>
-						<%
-						break;
-					case "2" :
-						break;
-					}//switch end
-					}//else end
-					%>
+					<li class="nav-item"><a href="../Member/user_profile.jsp"
+						class="nav-link">회원정보</a></li><%}%>
+					
 				</ul>
 			</div>
 		</div>

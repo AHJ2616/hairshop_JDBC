@@ -37,51 +37,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="index.jsp"
-          ><span class="flaticon-scissors-in-a-hair-salon-badge"></span
-          >Haircare</a
-        >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a href="index.jsp" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="services.jsp" class="nav-link">Services</a>
-            </li>
-            <li class="nav-item active">
-              <a href="gallery.jsp" class="nav-link">Gallery</a>
-            </li>
-            <li class="nav-item">
-              <a href="about.jsp" class="nav-link">About</a>
-            </li>
-            <li class="nav-item">
-              <a href="blog.jsp" class="nav-link">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="contact.jsp" class="nav-link">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+   <%@ include file="../Common/header.jsp" %>
     <!-- END nav -->
 
     <section
@@ -111,25 +67,7 @@
     <section class="ftco-section ftco-no-pt ftco-no-pb">
       <div class="container-fluid p-0">
         <div class="row no-gutters">
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-1.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Stylist</span>
-                <h3><a href="project.jsp">Beard</a></h3>
-              </div>
-              <a
-                href="images/work-1.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
+  
           <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="project">
               <img
@@ -139,7 +77,7 @@
               />
               <div class="text">
                 <span>Beauty</span>
-                <h3><a href="project.jsp">Haircut</a></h3>
+                <h3><a href="project.jsp">예약하기</a></h3>
               </div>
               <a
                 href="images/work-2.jpg"
@@ -149,120 +87,7 @@
               </a>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-3.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Beauty</span>
-                <h3><a href="project.jsp">Hairstylist</a></h3>
-              </div>
-              <a
-                href="images/work-3.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-4.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Beauty</span>
-                <h3><a href="project.jsp">Haircut</a></h3>
-              </div>
-              <a
-                href="images/work-4.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-5.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Beauty</span>
-                <h3><a href="project.jsp">Makeup</a></h3>
-              </div>
-              <a
-                href="images/work-5.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-6.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Fashion</span>
-                <h3><a href="project.jsp">Model</a></h3>
-              </div>
-              <a
-                href="images/work-6.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-7.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Beauty</span>
-                <h3><a href="project.jsp">Makeup</a></h3>
-              </div>
-              <a
-                href="images/work-7.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="images/work-8.jpg"
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span>Beauty</span>
-                <h3><a href="project.jsp">Makeup</a></h3>
-              </div>
-              <a
-                href="images/work-8.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
+      
         </div>
       </div>
     </section>

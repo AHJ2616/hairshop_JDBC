@@ -1,3 +1,5 @@
+<%@page import="hairshop.dto.CutDTO"%>
+<%@page import="hairshop.dao.CutDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -56,8 +58,8 @@
 			<div class="row justify-content-center pb-3">
 				<div class="col-md-10 heading-section text-center ftco-animate">
 					<span class="subheading">ADMINISTRATOR</span>
-					<h2 class="mb-4">관리자 전용 메뉴</h2>
-					<p>헤어샵 헤어 추가 및 디자이너 권한 부여 메뉴</p>
+					<h2 class="mb-4">헤어컷 상세 보기</h2>
+					<p>입력된 헤어컷의 정보를 수정합니다.</p>
 				</div>
 			</div>
 			<div
@@ -66,41 +68,86 @@
 				<div
 					class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
 					<div class="media block-6 services d-block text-center">
-						<div class="icon">
-							<span class="flaticon-male-hair-of-head-and-face-shapes"></span>
-						</div>
-						<!-- onclick으로 링크 연결, cursor로 마우스 올리면 손모양 버튼 출력 -->
-						<div class="media-body" onclick="location.href='hairCutList.jsp';"
-							style="cursor: pointer;">
-							<h3 class="heading mb-3">Haircut &amp; Styling</h3>
-							<p>헤어 컷 관리<br>(추가, 삭제, 제거)</p>
-						</div>
+	<%
+	int cno = Integer.parseInt(request.getParameter("cno"));
+	CutDAO dao = new CutDAO(); // 1,2 단계
+	CutDTO detailHaitCut = dao.selectHair(cno); // 3,4 단계
+	dao.close(); // 5단계
+	%>
+		<div class="col-md-12 d-flex ftco-animate" style="width: 600px; height: 400px";>
+			<div class="blog-entry align-self-stretch d-md-flex">
+				<img src="<%=request.getContextPath()%>/Haircut_images/<%=detailHaitCut.getSfile()%>" width="245" height="300">
+                  <div class="text d-block pl-md-4">
+                    <div class="meta mb-3">
+                      <div>
+                      </div>
+                    </div>
+                    <p>
+					헤어 이름 : <%=detailHaitCut.getCcutname()%>
+                    </p>
+                    <p>
+					헤어 설명 : <%=detailHaitCut.getCcontents()%>
+                    </p>
+                    <p>
+					헤어 가격 : <%=detailHaitCut.getCprice()%>
+                    </p>
+                    <p>
+                      <a
+                        href="deleteHairCut.jsp?cno=<%= detailHaitCut.getCno()%>"
+                        class="btn btn-primary py-2 px-3"
+                        >삭제</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
 					</div>
 				</div><!-- hairCutList.jsp 로가는 div -->
-				 <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="icon"><span class="flaticon-beard"></span></div>
-              <div class="media-body" onclick="location.href='../Book/bookList.jsp';">
-                <h3 class="heading mb-3">예약목록 보기</h3>
-                <p>매장 전체의 예약목록을 확인합니다</p>
-              </div>
-            </div>      
-          </div>
+			</div>
+		</div>
+
+		<form action="editHairCut.jsp" method="post" name="edtHairFrm"
+		onsubmit="return validateForm(this);">
+		<div class="container">
+			<div
+				class="row no-gutters d-flex justify-content-center align-items-center">
+				<!-- justify-content-center align-items-center : 가운데 정렬 -->
 				<div
 					class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
 					<div class="media block-6 services d-block text-center">
-						<div class="icon">
-							<span class="flaticon-healthy-lifestyle-logo"></span>
-						</div>
-						<div class="media-body" onclick="location.href='../Shop/gradeMain.jsp';"
-							style="cursor: pointer;">
-							<h3 class="heading mb-3">디자이너 임명</h3>
-							<p>특정 계정을 디자이너로 변경</p>
-						</div>
+		<div class="col-md-12 d-flex ftco-animate" style="width: 600px;">
+			<div class="blog-entry align-self-stretch d-md-flex">
+				<img src="<%=request.getContextPath()%>/Haircut_images/<%=detailHaitCut.getSfile()%>" width="245" height="300">
+                  <div class="text d-block pl-md-4">
+                    <div class="meta mb-3">
+                      <div>
+                      </div>
+                    </div>
+                    <input type="hidden" name="edit_cno" value="<%=detailHaitCut.getCno()%>">
+                    <p>
+					헤어 이름 수정:<input class="form-control" type="text" name="edit_cname" required	placeholder="변경할 헤어 이름" /><br />
+                    </p>
+                    <p>
+					헤어 설명 수정:<input class="form-control" type="text" name="edit_ccon" required placeholder="변경할 설명" /><br />
+                    </p>
+                    <p>
+					헤어 가격 수정:<input class="form-control" type="text" name="edit_pri" required	placeholder="변경할 금액" /><br />
+                    </p>
+                    <p>
+					<input type="submit" class="btn btn-primary btn-outline-primary"
+					value="변경" />
+                    </p>
+                  </div>
+                </div>
+              </div>
 					</div>
-				</div><!-- accEdit.jsp 로 가는 div -->
+				</div><!-- hairCutList.jsp 로가는 div -->
 			</div>
 		</div>
+	</form>
+		
+		
+		
 	</section>
 	<!-- 중단부 클릭 메뉴 -->
 

@@ -36,7 +36,7 @@
 </head>
 <body>
 	<%@ include file="../Common/header.jsp" %>
-	<%@ include file="./check_grade1.jsp" %>
+	<%@ include file="../Common/check_grade1.jsp" %>
 	<section class="hero-wrap hero-wrap-2"
 		style="background-image: url('images/bg-1.jpg')"
 		data-stellar-background-ratio="0.5">
@@ -62,16 +62,39 @@
 		</div>
 	</section>
 
-
-	<!-- 헤어컷 리스트로 집입하는 버튼 -->
+    <script>/* Form 유효성 검사 */
+    function validateForm(form) {
+        if (form.add_ccutname.value == "") {
+            alert("커트이름을 입력하세요.");
+            document.add_ccutname.focus();
+            return false; 
+        }
+        if (form.add_cprice.value == "") {
+            alert("커트가격을 입력하세요.");
+            document.add_cprice.focus();
+            return false; 
+        }
+        if (form.add_ccontent.value == "") {
+            alert("커트설명을 입력하세요.");
+            document.add_ccontent.focus();
+            return false; 
+        }
+        if (form.add_cimage.value == "") {
+            alert("이미지파일을 업로드하세요.");
+            document.add_cimage.focus();
+            return false; 
+        }
+    }
+    </script>
 	<div class="row justify-content-center pb-3">
-		<form action="addHairCutProcess.jsp" method="post" name="addHairFrm" enctype="multipart/form-data">
-			시술명 : <input class="form-control" type="text" name="add_cname" required	placeholder="시술명" /><br />
-			시술설명 : <input class="form-control" type="text" name="add_ccontent" required placeholder="시술설명" /><br />
-			시술가격 : <input class="form-control" type="number" name="add_cprice" required placeholder="시술가격" /><br />
+		<form action="addHairCutProcess.jsp" method="post" name="addHairFrm" enctype="multipart/form-data"
+		onsubmit="return validateForm(this);">
+			커트이름 : <input class="form-control" type="text" name="add_ccutname" required	placeholder="커트이름.." /><br />
+			커트내용설명 : <input class="form-control" type="text" name="add_ccontent" required placeholder="커트설명.." /><br />
+			커트가격 : <input class="form-control" type="text" name="add_cprice" required	placeholder="커트가격.." /><br />
 			이미지 : <input class="form-control" type="file" name="add_cimage" required placeholder="image..." /><br />
 			<input type="submit" class="btn btn-primary btn-outline-primary"
-				value="Add" />
+				value="추가" />
 		</form>
 	</div>
 

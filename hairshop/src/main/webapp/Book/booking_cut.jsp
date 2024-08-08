@@ -1,3 +1,5 @@
+<%@page import="hairshop.dao.CutDAO"%>
+<%@page import="hairshop.dto.CutDTO"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -95,51 +97,50 @@
 	 <section class="ftco-section ftco-no-pt ftco-no-pb">
       <div class="container-fluid p-0">
         <div class="row no-gutters">
-       <% DesignerDTO ddto = new DesignerDTO(); 
-          BookDAO bdao = new BookDAO();
-          List<DesignerDTO> lists = new Vector<DesignerDTO>();
-          
-          
-          
-          
-          String bdate2 =  request.getParameter("bdate"); //날짜
-          String bdate3 =  request.getParameter("btime"); //시간
-          String bdate = bdate2 + " " + bdate3;
-          String bsname = request.getParameter("bsname"); 
-          lists = bdao.read_designer(bsname);
-          bdao.close();
-         
-          int i=2; //임시적인 디자이너 프로필사진
-        	  for(DesignerDTO dto : lists){ 
-        	 
+       <% CutDAO dao = new CutDAO(); // 1,2 단계
+   	List<CutDTO> hairLists = dao.hairCutList(); // 3,4 단계
+   	dao.close(); // 5단계  
+   	String bsname= request.getParameter("bsname");
+   	String bdate= request.getParameter("bdate");
+   	String bdno= request.getParameter("bdno");
+   	String bdname= request.getParameter("bdname");
          %>
-           <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="project">
-              <img
-                src="../images/work-<%=i%>.jpg"
-                <%i++;%>
-                class="img-fluid"
-                alt="Colorlib Template"
-              />
-              <div class="text">
-                <span><%=dto.getDname()%></span>
-                <form action="./booking_cut.jsp" method="post" >
+         <%
+		for (CutDTO f : hairLists) {
+		%>
+		<div class="col-md-12 d-flex ftco-animate" style="width: 600px; height: 400px";>
+			<div class="blog-entry align-self-stretch d-md-flex">
+				<img src="<%=request.getContextPath()%>/Haircut_images/<%=f.getSfile()%>" width="245" height="300">
+                  <div class="text d-block pl-md-4">
+                    <div class="meta mb-3">
+                      <div>
+                      </div>
+                    </div>
+                    <h3 class="heading">
+                   	No. <%=f.getCsno()%> 헤어샵 : <%=f.getCsname()%>
+                    </h3>
+                    <p>
+					헤어 이름 : <%=f.getCcutname()%>
+                    </p>
+                    <p>
+					헤어 설명 : <%=f.getCcontents()%>
+                    </p>
+     
+                   <form action="./booking_process.jsp" method="post" >
+                   <input type="hidden" name="bcut" value="<%=f.getCcutname()%>" /> <!-- 커트명 넘기기 -->
                 <input type="hidden" name="bsname" value="<%=bsname%>" />  <!-- 매장명 넘기기 -->
                 <input type="hidden" name="bdate" value="<%=bdate%>" />    <!-- 예약일 넘기기 -->
-                <input type="hidden" name="bdno" value="<%=dto.getDno()%>" />     <!-- 디자이너 번호 넘기기 -->
-                <input type="hidden" name="bdname" value="<%=dto.getDname()%>" /> <!-- 디자이너 이름 넘기기 -->
-                <button class="button">선택하기</button>
+                <input type="hidden" name="bdno" value="<%=bdno%>" />     <!-- 디자이너 번호 넘기기 -->
+                <input type="hidden" name="bdname" value="<%=bdname%>" /> <!-- 디자이너 이름 넘기기 -->
+                <button class="button">예약하기</button>
                 </form>
-            </div>
-             <a
-                href="../images/work-2.jpg"
-                class="icon image-popup d-flex justify-content-center align-items-center"
-              >
-                <span class="icon-expand"></span>
-              </a>
-            </div>
-          </div>
-          <% }%>
+                 
+                  </div>
+                </div>
+              </div>
+	<%}%>
+          
+        
            </div>
       </div>
     </section>

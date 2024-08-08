@@ -26,19 +26,26 @@ RNO		NUMBER CONSTRAINT rno_PK primary key, --리뷰번호(sequence)
 rdate	date DEFAULT SYSDATE constraint rdate_NN not null, --리뷰작성일(자동으로 입력)
 rwriter nvarchar2(20) constraint rwriter_NN not null, --리뷰 작성자
 rcontents nvarchar2(2000) constraint rcontents_NN not null, --리뷰내용
-rdno number constraint rdn_nn not null --리뷰할 디자이너 번호
+rdno number constraint rdno_nn not null, --리뷰할 디자이너 번호
+rsno number constraint rsno_nn not null,	--리뷰할 매장 번호
+rofile nvarchar2(100),				--리뷰 이미지파일 이름 변경 전
+rsfile nvarchar2(100)				--리뷰 이미지파일 이름 변경 후
 );
-
 
 create table book(
 bno 	number constraint bno_PK primary key, --예약번호(sequence)
 bsname	nvarchar2(10) constraint bsname_nn not null, --매장이름
-bdate date constraint bdate_nn not null, --예약 날짜(yy/MM/dd hh:mm)
+bdate varchar2(100) constraint bdate_nn not null, --예약 날짜(yy/MM/dd hh:mm)
 bdno number constraint bdno_nn not null, --디자이너 번호
-bdname nvarchar2(10) constraint bid_nn not null, --커트명
-bcut nvarchar2(10) constraint bcut_nn not null, --디자이너 명
+bdname nvarchar2(10) constraint bid_nn not null, --디자이너 명
+bcut nvarchar2(10) constraint bcut_nn not null, --커트 명
 buno number constraint bun_nn not null --예약한 사용자 번호
 );
+
+
+create table book_done as select * from book where 1 <> 1;
+create table deleted_member as select * from member where 1<>1;
+
 
 create table shop(
 SNO		NUMBER		  constraint sno_pk primary key, --매장번호(sequence)
@@ -52,12 +59,15 @@ sclose NVARCHAR2(10) constraint Sclose_NN NOT NULL --매장 클로징시간
 
 create table designer(
 dno 	number	constraint dno_pk	primary key, --디자이너 번호(sequence)
-dname	nvarchar2(20)	constraint dname_nn not null, --디자이너 이름
+dname	nvarchar2(20)	constraint dname_nn not null unique, --디자이너 이름
 dsno	number	constraint dsno_nn not null, --매장 번호
 dopen	nvarchar2(20)	default '10:00' constraint dopen_nn not null, --출근 시간
 dclose 	nvarchar2(20)	default	'22:00' constraint dclose_nn 	not null --퇴근 시간
+DOFILE		VARCHAR2(50) default '없음',						  --디자이너 프로필사진 파일 이름 변경 전
+DSFILE		VARCHAR2(50) default '없음'					      --디자이너 프로필사진 파일 이름 변경 후 
 );
 
+insert into designer(dno,dname,dsno) values (dno_seq.nextval,'q8',4)
 
 create table users(
 umno	number	constraint	umno_pk	primary key, --유저번호(mno)
@@ -67,7 +77,7 @@ ucount	number	default	0	constraint	ucount_nn not null, --유저의 예약 보이
 umoney	number	default	0	constraint	umnoney_nn not null -- 사용한 금액
 );
 
-create table deleted_member as select * from member where 1<>1;
+
 
 --mgrade가 3인 일반회원이 가입될때 users 테이블에 정보 추가하기
 create trigger register_user_trigger
@@ -78,11 +88,11 @@ insert into users (umno,umname) values (:new.mno,:new.mname);
 end;
 
 --member 회원탈퇴 시 member데이터 저장
-create trigger delete_member_trigger
+create or replace trigger delete_member_trigger
 after delete on member for each row
 begin
 insert into deleted_member (mno,mid,mpw,mname,mphone,mssno,mgrade,mdate)
-values (:old.mno,:old.mid,:old.mpw,:old.mname,:old.mphone,:old.mssno,:old.mgrade,sysdate)
+values (:old.mno,:old.mid,:old.mpw,:old.mname,:old.mphone,:old.mssno,:old.mgrade,sysdate);
 end;
 
 --유저가 5회 이상시 예약을 하고 예약시간을 안지키면 로그인 막기
@@ -108,7 +118,14 @@ select * from CUT;
 select * from MEMBER;
 select * from REVIEW;
 select * from shop;
+select * from designer;
+select * from deleted_member;
+select * from users;
+insert into review(rno,rwriter,rcontents,rdno,rsno) values(rno_seq.nextval,'q5','테스트합시다',8,4)
 
+SELECT DISTINCT r.*,b.bdname,b.bsname FROM review r join book b on b.bdno=r.rdno where rwriter='q5';
+
+select d.* from shop s join designer d on s.sno = d.dsno where sname='차홍아르더'
 SELECT * FROM all_sequences where sequence_owner='ANN'; --모든 시퀀스 조회
 
 

@@ -1,18 +1,20 @@
 package hairshop.dto;
 
+import java.sql.Date;
+
 public class BookDTO {
 	
-	private int bno;
+	private String bno;
 	private String bsname;
-	private String bdate;
-	private String btime;
-	private int bdesignerNum;
+	private String bdate; // yyyy-MM-dd hh:mm
+	private String bdno;
+	private String bdname;
 	private String bcut;
-	private String bname;
-	private int buserNum;
+	private String buno;
 	
+	public BookDTO() {}
 	
-	public int getBno() {
+	public String getBno() {
 		return bno;
 	}
 	public String getBsname() {
@@ -21,22 +23,19 @@ public class BookDTO {
 	public String getBdate() {
 		return bdate;
 	}
-	public String getBtime() {
-		return btime;
+	public String getBdno() {
+		return bdno;
 	}
-	public int getBdesignerNum() {
-		return bdesignerNum;
+	public String getBdname() {
+		return bdname;
 	}
 	public String getBcut() {
 		return bcut;
 	}
-	public String getBname() {
-		return bname;
+	public String getBuno() {
+		return buno;
 	}
-	public int getBuserNum() {
-		return buserNum;
-	}
-	public void setBno(int bno) {
+	public void setBno(String bno) {
 		this.bno = bno;
 	}
 	public void setBsname(String bsname) {
@@ -45,21 +44,19 @@ public class BookDTO {
 	public void setBdate(String bdate) {
 		this.bdate = bdate;
 	}
-	public void setBtime(String btime) {
-		this.btime = btime;
+	public void setBdno(String bdno) {
+		this.bdno = bdno;
 	}
-	public void setBdesignerNum(int bdesignerNum) {
-		this.bdesignerNum = bdesignerNum;
+	public void setBdname(String bdname) {
+		this.bdname = bdname;
 	}
 	public void setBcut(String bcut) {
 		this.bcut = bcut;
 	}
-	public void setBname(String bname) {
-		this.bname = bname;
+	public void setBuno(String buno) {
+		this.buno = buno;
 	}
-	public void setBuserNum(int busernum) {
-		this.buserNum = busernum;
-	}
+	
 	
 
 }//class end

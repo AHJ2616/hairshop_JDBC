@@ -1,8 +1,8 @@
-<%@page import="hairshop.dto.CutDTO"%>
 <%@page import="hairshop.dao.CutDAO"%>
+<%@page import="hairshop.dto.CutDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,10 +38,10 @@
 <title>관리자메뉴>헤어리스트</title>
 </head>
 <body>
-	<%@ include file="../Common/header.jsp" %>
-	<%@ include file="./check_grade1.jsp" %>
-	
-		<section class="hero-wrap hero-wrap-2"
+	<%@ include file="../Common/header.jsp"%>
+	<%@ include file="../Common/check_grade1.jsp"%>
+
+	<section class="hero-wrap hero-wrap-2"
 		style="background-image: url('../images/bg-1.jpg')"
 		data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
@@ -53,43 +53,62 @@
 		</div>
 	</section>
 	<!-- 백그라운드 이미지 -->
-	
-		<section class="services-section ftco-section">
+
+	<section class="services-section ftco-section">
 		<div class="container">
 			<div class="row justify-content-center pb-3">
 				<div class="col-md-10 heading-section text-center ftco-animate">
 					<span class="subheading">ADMINISTRATOR</span>
-					<h2 class="mb-4">Hair Cut List</h2>
-					<p>you can see all of the Cut. Check hair for each and Add
-					edit, delete Hair cut</p>
+					<h2 class="mb-4">헤어컷 리스트</h2>
+					<p>헤어컷 리스트를 볼 수 있고. 각각의 헤어컷을 삭제하거나 추가할수 있습니다.</p>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- 헤어컷 리스트 -->
-	
+
 	<%
-		CutDAO dao = new CutDAO(); // 1,2 단계
-		List<CutDTO> fileLists = dao.myFileList(); // 3,4 단계
-		dao.close(); // 5단계
+	CutDAO dao = new CutDAO(); // 1,2 단계
+	List<CutDTO> hairLists = dao.hairCutList(); // 3,4 단계
+	dao.close(); // 5단계
 	%>
-	
-	<table border="1">
-		<% for (CutDTO f : fileLists) { %>
-	<tr>
-		<td><%= f.getCno() %></td>
-		<td><%= f.getCsname() %></td>
-		<td><%= f.getCcontents() %></td>
-		<img src="<%= request.getContextPath() %>/Uploads/<%= f.getSfile() %>" >
-		
-		<!-- URLEncoder.encode(f.getOfile(),"UTF-8") : 한글처리 및 특수문자는 인코딩해야 함 -->
-	</tr>
-	<%} %>
-	</table>
-	<!-- 헤어컷 리스트로 집입하는 버튼 -->
+		<%
+		for (CutDTO f : hairLists) {
+		%>
+		<div class="col-md-12 d-flex ftco-animate" style="width: 600px; height: 400px";>
+			<div class="blog-entry align-self-stretch d-md-flex">
+				<img src="<%=request.getContextPath()%>/Haircut_images/<%=f.getSfile()%>" width="245" height="300">
+                  <div class="text d-block pl-md-4">
+                    <div class="meta mb-3">
+                      <div>
+                      </div>
+                    </div>
+                    <p>
+					헤어 이름 : <%=f.getCcutname()%>
+                    </p>
+                    <p>
+					헤어 설명 : <%=f.getCcontents()%>
+                    </p>
+                    <p>
+					헤어 가격 : <%=f.getCprice()%>
+                    </p>
+                    <p>
+                      <a
+                        href="detailHairCut.jsp?cno=<%=f.getCno()%>"
+                        class="btn btn-primary py-2 px-3"
+                        >상세보기</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+	<%}%>
+
+
+
+	<!-- 헤어컷 추가 버튼 -->
 	<div class="row justify-content-center pb-3">
 	<p class="mt-3">
-	<a href="addHairCut.jsp" class="btn btn-primary btn-outline-primary ">Add Hair Cut</a>
+	<a href="addHairCut.jsp" class="btn btn-primary btn-outline-primary ">헤어컷 추가</a>
 	</p>
 	</div>
 	
